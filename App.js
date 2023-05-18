@@ -1,20 +1,27 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { useState } from 'react';
+//navigation
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+//screens
+import BlogPostList from './src/screens/BlogPostList';
+import BlogPostDetail from './src/screens/BlogPostDetail';
+//contexts
+import DataContext from './src/contexts/DataContext';
+
+const AppStack = createStackNavigator();
 
 export default function App() {
+
+  const [blogPostData, setBlogPostData] = useState([]);
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <DataContext.Provider value={{ blogPostData, setBlogPostData }}>
+      <NavigationContainer>
+        <AppStack.Navigator>
+          <AppStack.Screen name="BlogPostList" component={BlogPostList} options={{ headerShown: false }} />
+          <AppStack.Screen name="BlogPostDetail" component={BlogPostDetail} options={{ headerShown: false }} />
+        </AppStack.Navigator>
+      </NavigationContainer>
+    </DataContext.Provider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
